@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PESY — Inbox Design Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface-2: #1a1a1a;
+            --border: #262626;
+            --text: #e5e5e5;
+            --text-muted: #737373;
+            --text-dim: #a3a3a3;
+            --orange: #f97316;
+            --orange-soft: rgba(249, 115, 22, 0.1);
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --yellow: #eab308;
+            --blue: #3b82f6;
+            --gray: #6b7280;
+        }
+
+        body {
+            font-family:
+                -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 220px 380px 1fr;
+            height: 100vh;
+        }
+
+        /* ============ SIDEBAR ============ */
+        .sidebar {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .logo-mark {
+            width: 26px;
+            height: 26px;
+            background: var(--orange);
+            color: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .nav-section {
+            padding: 0 8px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0 12px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 13px;
+            margin-bottom: 2px;
+            transition: background 0.15s;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: var(--orange-soft);
+            color: var(--orange);
+            font-weight: 500;
+        }
+
+        .nav-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        .nav-count {
+            margin-left: auto;
+            font-size: 11px;
+            color: var(--text-muted);
+            background: var(--surface-2);
+            padding: 2px 7px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active .nav-count {
+            background: var(--orange-soft);
+            color: var(--orange);
+        }
+
+        /* ============ EMAIL LIST ============ */
+        .email-list {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .list-header {
+            padding: 20px 20px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .list-header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .filter {
+            padding: 5px 12px;
+            font-size: 12px;
+            border-radius: 14px;
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .filter:hover {
+            background: var(--surface-2);
+        }
+
+        .filter.active {
+            background: var(--orange);
+            color: white;
+            font-weight: 500;
+        }
+
+        .email-items {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .email-row {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.1s;
+            position: relative;
+        }
+
+        .email-row:hover {
+            background: var(--surface-2);
+        }
+
+        .email-row.active {
+            background: var(--surface-2);
+            border-left: 2px solid var(--orange);
+            padding-left: 18px;
+        }
+
+        .row-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .priority-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .priority-dot.p5 {
+            background: var(--red);
+            box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+        }
+
+        .priority-dot.p4 {
+            background: var(--orange);
+        }
+
+        .priority-dot.p3 {
+            background: var(--yellow);
+        }
+
+        .priority-dot.p2 {
+            background: var(--blue);
+        }
+
+        .priority-dot.p1 {
+            background: var(--gray);
+        }
+
+        .sender {
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--text);
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .time {
+            font-size: 11px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .priority-num {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            min-width: 12px;
+            text-align: right;
+        }
+
+        .subject {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
+        }
+
+        .summary {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+        }
+
+        /* ============ DETAIL PANEL ============ */
+        .detail {
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .detail-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .detail-sender {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            font-size: 15px;
+        }
+
+        .sender-info {
+            flex: 1;
+        }
+
+        .sender-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .sender-email {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .detail-subject {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .detail-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .detail-body {
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 20px;
+        }
+
+        .card-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-label-icon {
+            width: 12px;
+            height: 12px;
+            color: var(--orange);
+        }
+
+        .card-content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        .card-content p {
+            margin-bottom: 10px;
+        }
+
+        .card-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .meta-badges {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 10px;
+            font-weight: 500;
+            background: var(--surface-2);
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+        }
+
+        .badge.orange {
+            background: var(--orange-soft);
+            color: var(--orange);
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .badge.red {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .badge.yellow {
+            background: rgba(234, 179, 8, 0.1);
+            color: var(--yellow);
+            border-color: rgba(234, 179, 8, 0.3);
+        }
+
+        .reply-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ea580c;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .app {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar,
+            .detail {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-mark">P</div>
+                <span>Pesy</span>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-label">Workspace</div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                    </svg>
+                    <span>Attention</span>
+                    <span class="nav-count">6</span>
+                </div>
+                <div class="nav-item active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    <span>Inbox</span>
+                    <span class="nav-count">20</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span>Snoozed</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-label">Work</div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 11 12 14 22 4" />
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                    </svg>
+                    <span>Tasks</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                    </svg>
+                    <span>Follow-ups</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <span>Drafts</span>
+                </div>
+            </div>
+
+            <div class="nav-section" style="margin-top: auto">
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                    <span>Settings</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- EMAIL LIST -->
+        <section class="email-list">
+            <div class="list-header">
+                <h1>Inbox</h1>
+                <div class="filters">
+                    <button class="filter active">All</button>
+                    <button class="filter">Needs Reply</button>
+                    <button class="filter">Waiting</button>
+                    <button class="filter">FYI</button>
+                </div>
+            </div>
+
+            <div class="email-items">
+                <div class="email-row active">
+                    <div class="row-top">
+                        <span class="priority-dot p4"></span>
+                        <span class="sender">David Kim</span>
+                        <span class="time">2h</span>
+                        <span class="priority-num">4</span>
+                    </div>
+                    <div class="subject">Q4 Partnership Proposal</div>
+                    <div class="summary">
+                        Needs your sign-off before Friday's stakeholder meeting
+                    </div>
+                </div>
+
+                <div class="email-row">
+                    <div class="row-top">
+                        <span class="priority-dot p3"></span>
+                        <span class="sender">Sarah Lee</span>
+                        <span class="time">5h</span>
+                        <span class="priority-num">3</span>
+                    </div>
+                    <div class="subject">Re: Client feedback call</div>
+                    <div class="summary">Waiting on your response about scheduling</div>
+                </div>
+
+                <div class="email-row">
+                    <div class="row-top">
+                        <span class="priority-dot p2"></span>
+                        <span class="sender">Babtech Computers</span>
+                        <span class="time">8h</span>
+                        <span class="priority-num">2</span>
+                    </div>
+                    <div class="subject">New post: Raspberry Pi runs your home now</div>
+                    <div class="summary">
+                        Weekly newsletter with new articles and tutorials
+                    </div>
+                </div>
+
+                <div class="email-row">
+                    <div class="row-top">
+                        <span class="priority-dot p5"></span>
+                        <span class="sender">Alex Rivera</span>
+                        <span class="time">1d</span>
+                        <span class="priority-num">5</span>
+                    </div>
+                    <div class="subject">Re: API access for analytics team</div>
+                    <div class="summary">Urgent: credentials needed by Thursday</div>
+                </div>
+
+                <div class="email-row">
+                    <div class="row-top">
+                        <span class="priority-dot p2"></span>
+                        <span class="sender">LinkedIn</span>
+                        <span class="time">1d</span>
+                        <span class="priority-num">2</span>
+                    </div>
+                    <div class="subject">Your posts got 256 impressions last week</div>
+                    <div class="summary">Weekly analytics summary from LinkedIn</div>
+                </div>
+
+                <div class="email-row">
+                    <div class="row-top">
+                        <span class="priority-dot p3"></span>
+                        <span class="sender">James Chen</span>
+                        <span class="time">2d</span>
+                        <span class="priority-num">3</span>
+                    </div>
+                    <div class="subject">Feedback on the new dashboard</div>
+                    <div class="summary">
+                        Waiting on you to propose a time for review
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETAIL PANEL -->
+        <section class="detail">
+            <div class="detail-header">
+                <div class="detail-sender">
+                    <div class="avatar">D</div>
+                    <div class="sender-info">
+                        <div class="sender-name">David Kim</div>
+                        <div class="sender-email">david@company.com</div>
+                    </div>
+                </div>
+                <div class="detail-subject">Q4 Partnership Proposal</div>
+                <div class="detail-meta">Today, 10:24 AM · to you</div>
+            </div>
+
+            <div class="detail-body">
+                <!-- AI Analysis Card -->
+                <div class="card">
+                    <div class="card-label">
+                        <svg class="card-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                        PESY Analysis
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            David is asking you to sign off on the Q4 partnership proposal
+                            before Friday's stakeholder meeting. He's included revised ROI
+                            projections and wants your feedback on slide 12.
+                        </p>
+                    </div>
+                    <div class="meta-badges">
+                        <span class="badge red">Priority 4</span>
+                        <span class="badge orange">Approval</span>
+                        <span class="badge">Neutral</span>
+                    </div>
+                </div>
+
+                <!-- Original Email Card -->
+                <div class="card">
+                    <div class="card-label">
+                        <svg class="card-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        Original Email
+                    </div>
+                    <div class="card-content">
+                        <p>Hi Benjamin,</p>
+                        <p>
+                            The deck is ready. We need your sign-off before Friday's
+                            stakeholder meeting. I've incorporated your feedback and added
+                            revised ROI projections.
+                        </p>
+                        <p>
+                            One question on slide 12 — the ROI assumptions assume 40%
+                            conversion. Can you walk me through that?
+                        </p>
+                        <p>Thanks,<br />David</p>
+                    </div>
+                </div>
+
+                <!-- Suggested Reply Card -->
+                <div class="card">
+                    <div class="card-label">
+                        <svg class="card-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        Suggested Reply
+                    </div>
+                    <div class="card-content">
+                        <p>Hi David,</p>
+                        <p>
+                            I've reviewed the deck. Looks solid. One question on slide 12 —
+                            the ROI assumptions assume 40% conversion. Can you walk me
+                            through that? Otherwise, go ahead and send to stakeholders.
+                        </p>
+                        <p>Best regards,<br />Benjamin</p>
+                    </div>
+                    <div class="reply-actions">
+                        <button class="btn btn-primary">Send</button>
+                        <button class="btn btn-secondary">Edit</button>
+                        <button class="btn btn-secondary">Discard</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

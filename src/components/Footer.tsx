@@ -1,27 +1,38 @@
-import Link from "next/link";
-
 export default function Footer() {
-    return (
-        <footer className="mt-20 border-t border-neutral-200 bg-white">
-            <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6 text-sm text-neutral-500">
-                <p>© 2026 DevLog. Built in public by Victor</p>
-                <div className="flex gap-6">
-                    <Link href="/" className="hover:text-black">
-                        Entries
-                    </Link>
-                    <Link href="/about" className="hover:text-black">
-                        About
-                    </Link>
-                    <a
-                        href="https://github.com/victoromeife"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-black"
-                    >
-                        GitHub
-                    </a>
-                </div>
-            </div>
-        </footer>
-    );
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="relative mt-24 border-t border-white/5">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent" />
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center text-sm text-neutral-500 sm:flex-row sm:justify-between sm:text-left sm:px-8 lg:px-10">
+        <p>© {year} Victor Omeife — building in public, shipping with intent.</p>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="https://victor-omeife.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-neutral-200"
+          >
+            Portfolio
+          </a>
+          <a
+            href="https://devlog-amber-zeta.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-neutral-200"
+          >
+            DevLog
+          </a>
+          <a
+            href="https://github.com/victoromeife"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-neutral-200"
+          >
+            GitHub
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
 }

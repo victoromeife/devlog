@@ -1,45 +1,120 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafafa;
-  --foreground: #111111;
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
+  --grid-color: rgba(148, 163, 184, 0.12);
+}
+
+* {
+  scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.08), transparent 55%),
+    var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--grid-color) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.25;
+  z-index: -20;
 }
 
 /* Markdown content styling */
+.prose {
+  color: #d4d4d8;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: #f8fafc;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
 .prose h3 {
-  margin-top: 2.5rem;
+  margin-top: 2.75rem;
   margin-bottom: 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.025em;
-  color: #737373;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: rgba(226, 232, 255, 0.8);
 }
 
 .prose p {
-  margin-bottom: 1.25rem;
-  line-height: 1.7;
-  color: #404040;
+  margin-bottom: 1.6rem;
+  line-height: 1.9;
+  color: rgba(228, 228, 231, 0.9);
+}
+
+.prose a {
+  color: #a5b4fc;
+  text-decoration: none;
+}
+
+.prose a:hover {
+  color: #c7d2fe;
 }
 
 .prose ol {
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-  padding-left: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .prose li {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-  color: #404040;
+  line-height: 1.9;
+  color: rgba(228, 228, 231, 0.9);
+}
+
+.prose li::marker {
+  color: rgba(129, 140, 248, 0.9);
 }
 
 .prose strong {
   font-weight: 600;
-  color: #171717;
+  color: #f8fafc;
+}
+
+.prose blockquote {
+  border-left: 1px solid rgba(129, 140, 248, 0.6);
+  padding-left: 1.5rem;
+  color: rgba(226, 232, 255, 0.8);
+  font-style: italic;
+}
+
+.prose code {
+  border-radius: 0.4rem;
+  background: rgba(148, 163, 184, 0.18);
+  padding: 0.2rem 0.4rem;
+  font-size: 0.95em;
+}
+
+.prose pre {
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: radial-gradient(circle at top, rgba(99, 102, 241, 0.16), transparent),
+    rgba(15, 15, 20, 0.9);
+  padding: 1.75rem;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: transparent;
+  padding: 0;
 }

@@ -1,19 +1,27 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "DevLog | Victor Omeife",
+  title: {
+    default: "Devlog by Victor Omeife",
+    template: "%s | Devlog",
+  },
   description:
-    "A personal tracker of my coding journey — projects, challenges, lessons and build-in-public notes.",
+    "Victor Omeife's personal developer journal about shipped work, hard problems, and lessons worth keeping.",
   metadataBase: new URL("https://devlog-amber-zeta.vercel.app"),
   openGraph: {
-    title: "DevLog | Victor Omeife",
+    title: "Devlog by Victor Omeife",
     description:
-      "A personal tracker of my coding journey — projects, challenges, lessons and build-in-public notes.",
+      "Notes from the work behind the work: projects, problems, and lessons from Victor Omeife.",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#f4f0e7",
 };
 
 export default function RootLayout({
@@ -23,12 +31,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#0a0a0a] text-neutral-100 antialiased">
-        <div className="relative min-h-screen overflow-x-hidden">
-          <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_top,rgba(120,119,198,0.22),transparent_70%)]" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.16),transparent_65%)]" />
+      <body>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
+        <div className="site-shell">
           <Header />
-          <main className="mx-auto max-w-6xl px-6 pb-16 pt-10 sm:px-8 lg:px-10">
+          <main id="main-content" className="site-main">
             {children}
           </main>
           <Footer />

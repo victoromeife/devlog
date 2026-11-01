@@ -74,119 +74,113 @@ ${content.trim()}\n`;
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-10">
-      <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/12 via-white/5 to-transparent p-8 sm:p-12">
-        <div className="pointer-events-none absolute -left-40 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-indigo-500/18 blur-[160px]" />
-        <div className="pointer-events-none absolute -right-28 -top-36 h-72 w-72 rounded-full bg-sky-400/16 blur-[150px]" />
-        <div className="relative flex flex-col gap-6">
-          <p className="text-sm uppercase tracking-[0.4em] text-neutral-500">
-            Studio
+    <div className="studio-page">
+      <header className="studio-hero">
+        <div className="studio-hero__copy">
+          <p className="eyebrow">Writing workspace / Studio</p>
+          <h1>Turn a rough note into a journal entry.</h1>
+          <p>
+            Add the details, write in Markdown, then download the finished file
+            for <code className="inline-code">src/content/</code>. No CMS and no
+            extra publishing layer.
           </p>
-          <div className="max-w-3xl space-y-4">
-            <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Write a new DevLog entry without creating files by hand.
-            </h1>
-            <p className="text-lg leading-relaxed text-neutral-300">
-              Fill the form below, download the Markdown with correct frontmatter,
-              and drop it into <code className="rounded bg-white/10 px-1.5 py-0.5">src/content/</code>.
-              The site reads it directly — no backend needed.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-400">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-1.5">
-              Suggested filename:
-              <span className="text-white">{slug}.md</span>
-            </span>
-          </div>
         </div>
-      </section>
+        <div className="studio-file">
+          <span>Suggested file</span>
+          <strong>{slug}.md</strong>
+          <p>Ready to download when the note is finished.</p>
+        </div>
+      </header>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-          <div className="flex flex-col gap-6 p-6 sm:p-8">
-            <div className="flex flex-col gap-2">
-              <h2 className="text-xl font-semibold text-white">Entry details</h2>
-              <p className="text-sm text-neutral-400">
-                Frontmatter used by the site.
-              </p>
+      <div className="studio-grid">
+        <section className="studio-panel">
+          <div className="studio-panel__heading">
+            <span>01</span>
+            <div>
+              <p className="eyebrow">Entry details</p>
+              <h2>Shape the note</h2>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="flex flex-col gap-2 text-sm text-neutral-300">
+          </div>
+
+          <div className="studio-panel__body">
+            <div className="studio-fields">
+              <label className="studio-field">
                 Title
                 <input
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   placeholder="Lessons from shipping my latest build"
-                  className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-white outline-none transition focus:border-indigo-400/70"
+                  className="studio-input"
                 />
               </label>
-              <label className="flex flex-col gap-2 text-sm text-neutral-300">
+              <label className="studio-field">
                 Date
                 <input
                   type="date"
                   value={date}
                   onChange={(event) => setDate(event.target.value)}
-                  className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-white outline-none transition focus:border-indigo-400/70"
+                  className="studio-input"
                 />
               </label>
-              <label className="flex flex-col gap-2 text-sm text-neutral-300">
+              <label className="studio-field">
                 Reading time
                 <input
                   value={readingTime}
                   onChange={(event) => setReadingTime(event.target.value)}
                   placeholder="4 min read"
-                  className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-white outline-none transition focus:border-indigo-400/70"
+                  className="studio-input"
                 />
               </label>
-              <label className="flex flex-col gap-2 text-sm text-neutral-300">
+              <label className="studio-field">
                 Category
                 <input
                   value={category}
                   onChange={(event) => setCategory(event.target.value)}
                   placeholder="Learnings"
-                  className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-white outline-none transition focus:border-indigo-400/70"
+                  className="studio-input"
                 />
               </label>
             </div>
-            <label className="flex flex-col gap-2 text-sm text-neutral-300">
+            <label className="studio-field">
               Excerpt
               <textarea
                 value={excerpt}
                 onChange={(event) => setExcerpt(event.target.value)}
                 rows={3}
                 placeholder="A short hook that appears on the home page and entry header."
-                className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-white outline-none transition focus:border-indigo-400/70"
+                className="studio-input"
               />
             </label>
-            <label className="flex flex-col gap-2 text-sm text-neutral-300">
+            <label className="studio-field">
               Tags (comma separated)
               <input
                 value={tags}
                 onChange={(event) => setTags(event.target.value)}
                 placeholder="nextjs, typescript, lessons"
-                className="rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-white outline-none transition focus:border-indigo-400/70"
+                className="studio-input"
               />
             </label>
-            <label className="flex flex-col gap-2 text-sm text-neutral-300">
+            <label className="studio-field">
               Content (Markdown)
               <textarea
                 value={content}
                 onChange={(event) => setContent(event.target.value)}
                 rows={14}
-                className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 font-mono text-sm text-white outline-none transition focus:border-indigo-400/70"
+                className="studio-input studio-input--content"
               />
             </label>
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="studio-actions">
               <button
+                type="button"
                 onClick={download}
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm text-white transition hover:bg-white/20"
+                className="studio-button studio-button--primary"
               >
                 Download {slug}.md
               </button>
               <button
+                type="button"
                 onClick={copy}
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 px-5 py-2 text-sm text-neutral-300 transition hover:border-white/30 hover:text-white"
+                className="studio-button"
               >
                 Copy markdown
               </button>
@@ -194,21 +188,17 @@ ${content.trim()}\n`;
           </div>
         </section>
 
-        <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-          <div className="flex flex-col gap-4 p-6 sm:p-8">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col gap-1">
-                <h2 className="text-xl font-semibold text-white">Preview</h2>
-                <p className="text-sm text-neutral-400">
-                  Exact output written to the file.
-                </p>
-              </div>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-neutral-400">
-                src/content/{slug}.md
-              </span>
+        <section className="studio-panel studio-panel--preview">
+          <div className="studio-panel__heading">
+            <span>02</span>
+            <div>
+              <p className="eyebrow">File preview</p>
+              <h2>Check the output</h2>
             </div>
-            <pre className="max-h-[720px] overflow-auto rounded-2xl border border-white/10 bg-black/40 p-6 text-xs leading-relaxed text-neutral-200">
+          </div>
+          <div className="studio-panel__body">
+            <p className="studio-path">src/content/{slug}.md</p>
+            <pre className="studio-preview">
               <code>{markdown}</code>
             </pre>
           </div>
